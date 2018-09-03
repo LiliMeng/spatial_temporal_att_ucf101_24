@@ -85,8 +85,10 @@ if __name__ == '__main__':
     for i, (train_sample, train_batch_name) in enumerate(train_data_loader):
         train_batch_feature = train_sample['feature']
         train_batch_label = train_sample['label']
+        train_batch_name = np.asarray(train_batch_name)
+
         print("train_batch_feature.shape: ", train_batch_feature.shape)
-        print("len(train_batch_name): ", len(train_batch_name))
+        print("train_batch_name.shape: ", train_batch_name.shape)
         print("train_batch_label.shape: ", train_batch_label.shape)
         
         print("i: ", i)
@@ -100,8 +102,9 @@ if __name__ == '__main__':
     for i, (test_sample, test_batch_name) in enumerate(test_data_loader):
         test_batch_feature = test_sample['feature']
         test_batch_label = test_sample['label']
+        test_batch_name = np.asarray(test_batch_name)
         print("test_batch_feature.shape: ", test_batch_feature.shape)
-        print("len(test_batch_name): ", len(test_batch_name))
+        print("test_batch_name.shape: ", test_batch_name.shape)
         print("test_batch_label.shape: ", test_batch_label.shape)
         
         print("i: ", i)
