@@ -107,9 +107,9 @@ if __name__ == '__main__':
         print("test_batch_feature.shape: ", test_batch_feature.shape)
         print("test_batch_name.shape: ", test_batch_name.shape)
         print("test_batch_label.shape: ", test_batch_label.shape)
-        all_test_names.append(test_batch_name)
+        np.append(test_batch_name)
         print("i: ", i)
-    all_test_names = np.asarray(all_test_names)
+    all_test_names = np.array(all_test_names)
 
     print("all_test_names.shape: ", all_test_names.shape)
     print("all_test_names[0].shape: ", all_test_names[0].shape)

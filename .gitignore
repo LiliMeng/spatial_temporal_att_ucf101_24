@@ -7,6 +7,7 @@ train_cnn_extract_features/spa_features/
 spatial_temporal_attention/__pycache__/
 spatial_temporal_attention/saved_weights/
 spatial_temporal_attention/Conv_ucf101_24_tensorboard/
+spatial_temporal_attention/mask_visualization/
 
 
 
