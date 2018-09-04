@@ -72,7 +72,7 @@ def get_loader(class_dict, data_dir, csv_file, batch_size, mode='train', dataset
 
 if __name__ == '__main__':
     
-    batch_size = 3
+    batch_size = 30
 
     class_dict = make_label_dict()
     print("class_dict")
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     for i, (train_sample, train_batch_name) in enumerate(train_data_loader):
         train_batch_feature = train_sample['feature']
         train_batch_label = train_sample['label']
-        train_batch_name = np.asarray(train_batch_name)
+        train_batch_name = np.swapaxes(np.asarray(train_batch_name), 0, 1)
 
         print("train_batch_feature.shape: ", train_batch_feature.shape)
         print("train_batch_name.shape: ", train_batch_name.shape)
@@ -98,14 +98,20 @@ if __name__ == '__main__':
     test_csv_file = './feature_list/feature_test_list.csv'
     test_data_loader = get_loader(class_dict, test_data_dir, test_csv_file, batch_size=batch_size, mode='test',
                              dataset='ucf101_24_anno')
-   
+    
+    all_test_names = []
     for i, (test_sample, test_batch_name) in enumerate(test_data_loader):
         test_batch_feature = test_sample['feature']
         test_batch_label = test_sample['label']
-        test_batch_name = np.asarray(test_batch_name)
+        test_batch_name = np.swapaxes(np.asarray(test_batch_name),0,1)
         print("test_batch_feature.shape: ", test_batch_feature.shape)
         print("test_batch_name.shape: ", test_batch_name.shape)
         print("test_batch_label.shape: ", test_batch_label.shape)
-        
+        all_test_names.append(test_batch_name)
         print("i: ", i)
-        break
+    all_test_names = np.asarray(all_test_names)
+
+    print("all_test_names.shape: ", all_test_names.shape)
+    print("all_test_names[0].shape: ", all_test_names[0].shape)
+        
+      

@@ -31,12 +31,12 @@ if not os.path.exists(saved_vis_dir):
 video_name=np.load("./saved_weights/"+mask_dir+"/"+mode+"_name.npy")
 video_weights = np.load("./saved_weights/"+mask_dir+"/"+mode+"_att_weights.npy")
 
-print(np.asarray(video_name[0][0]).shape)
+
+
 
 print("video_name.shape: ", video_name.shape)
 print("train_weights.shape: ", video_weights.shape)
 
-video_name = video_name.transpose((0,2,1)).reshape(-1, video_frame_length)
 
 print("video_name.shape: ", video_name.shape)
 print("train_weights.shape: ", video_weights.shape)
