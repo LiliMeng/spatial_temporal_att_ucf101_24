@@ -13,7 +13,7 @@ import os
 import subprocess
 import numpy as np
 import cv2
-
+import csv
 
 def generate_IOU(gt_bbox, pred_bbox, img, img_index, save_folder):
     # determine the (x, y)-coordinates of the intersection rectangle
@@ -90,7 +90,7 @@ def pick_24_anno_classes():
 
 			per_frame_name = 'frame%06d.jpg'%(j+int(start_frame))
 			frame_name = os.path.join(video_name, per_frame_name)
-			
+
 			org_img_name = os.path.join(org_img_dir, frame_name)
 			print("org_img_name: ", org_img_name)
 
@@ -101,6 +101,8 @@ def pick_24_anno_classes():
 			
 			per_frame_gt_bbox = bboxes_per_video[j]
 
+			per_frame_gt_bbox[2] += per_frame_gt_bbox[0]
+			per_frame_gt_bbox[3] += per_frame_gt_bbox[1]
 
 			video_gt_bbox_dict[frame_name] = per_frame_gt_bbox
 			print("frame_name: ", frame_name)
@@ -108,12 +110,15 @@ def pick_24_anno_classes():
 
 			
 			
-			per_frame_gt_bbox[2] += per_frame_gt_bbox[0]
-			per_frame_gt_bbox[3] += per_frame_gt_bbox[1]
+			
 			#cv2.rectangle(org_img_copy,(int(per_frame_gt_bbox[0]),int(per_frame_gt_bbox[1])),(int(per_frame_gt_bbox[2]),int(per_frame_gt_bbox[3])),(255,0,0),2)
 			#cv2.imwrite(os.path.join(sub_gt_bbox_dir, per_frame_name), org_img_copy)
 		
 	print("len(video_gt_bbox_dict): ", len(video_gt_bbox_dict))
+	np.save("video_gt_bbox_dict.npy", video_gt_bbox_dict)
+	w = csv.writer(open("video_gt_bbox_dictc_output.csv", "w"))
+	for key, val in video_gt_bbox_dict.items():
+		w.writerow([key, val])
 
 
 pick_24_anno_classes()
