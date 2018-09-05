@@ -82,8 +82,8 @@ def pick_24_anno_classes():
 			
 			
 			
-			#cv2.rectangle(org_img_copy,(int(per_frame_gt_bbox[0]),int(per_frame_gt_bbox[1])),(int(per_frame_gt_bbox[2]),int(per_frame_gt_bbox[3])),(255,0,0),2)
-			#cv2.imwrite(os.path.join(sub_gt_bbox_dir, per_frame_name), org_img_copy)
+			cv2.rectangle(org_img_copy,(int(per_frame_gt_bbox[0]),int(per_frame_gt_bbox[1])),(int(per_frame_gt_bbox[2]),int(per_frame_gt_bbox[3])),(255,0,0),2)
+			cv2.imwrite(os.path.join(sub_gt_bbox_dir, per_frame_name), org_img_copy)
 		
 	print("len(video_gt_bbox_dict): ", len(video_gt_bbox_dict))
 	pickle_out = open("video_gt_bbox_dict.pickle","wb")

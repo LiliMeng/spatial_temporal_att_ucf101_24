@@ -77,18 +77,16 @@ def draw_boundingbox_on_heatmap_img(gray_img_video_dir, heatmap_img_video_dir, b
 
 				frame_name = os.path.join(sub_dir, img_name)
 				video_pred_bbox_dict[frame_name] = pred_box
-				#org_img = cv2.imread(os.path.join(sub_heatmap_img_video_dir, img_name))
-				#org_img_copy = org_img.copy()
-				#cv2.rectangle(org_img_copy,(int(pred_box[0]),int(pred_box[1])),(int(pred_box[2]),int(pred_box[3])),(255,0,0),2)
-				#cv2.imwrite(os.path.join(sub_bounding_box_dir, img_name), org_img_copy)
+				org_img = cv2.imread(os.path.join(sub_heatmap_img_video_dir, img_name))
+				org_img_copy = org_img.copy()
+				cv2.rectangle(org_img_copy,(int(pred_box[0]),int(pred_box[1])),(int(pred_box[2]),int(pred_box[3])),(255,0,0),2)
+				cv2.imwrite(os.path.join(sub_bounding_box_dir, img_name), org_img_copy)
 
 	print("len(video_pred_bbox_dict): ", len(video_pred_bbox_dict))
 	pickle_out = open("video_pred_bbox_dict.pickle","wb")
 	pickle.dump(video_pred_bbox_dict, pickle_out)
 	pickle_out.close()
-	w = csv.writer(open("video_pred_bbox_dict_output.csv", "w"))
-	for key, val in video_pred_bbox_dict.items():
-		w.writerow([key, val])
+	
 
 gray_img_video_dir = '/media/dataDisk/Video/spatial_temporal_att_ucf101_24/spatial_temporal_attention/mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_gray'
 heatmap_img_video_dir = '/media/dataDisk/Video/spatial_temporal_att_ucf101_24/spatial_temporal_attention/mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_heatmap'

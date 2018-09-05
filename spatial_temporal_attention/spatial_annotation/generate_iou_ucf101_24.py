@@ -65,7 +65,7 @@ print(len(same_video_frame_gt_pred))
 
 heatmap_dir = '/media/dataDisk/Video/spatial_temporal_att_ucf101_24/spatial_temporal_attention/mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_heatmap'
 
-iou_threshold = 0.2
+iou_threshold = 0.3
 correct_iou_num =0
 for frame_name in same_video_frame_gt_pred:
 	gt_bbox = video_gt_bbox_dict[frame_name]
