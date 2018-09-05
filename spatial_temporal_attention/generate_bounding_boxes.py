@@ -11,27 +11,43 @@ import cv2
 import os
 import shutil
 
+
 def generate_boundingbox(gray_img, threshold):
+    """Generate a bounding box for the heatmap"""
+    
+    gray = gray_img.copy()
+    ret,th1 = cv2.threshold(gray, threshold, 255, cv2.THRESH_BINARY)
+    _, contours, hierarchy = cv2.findContours(th1, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    size = 0
+    x, y, w, h = 0, 0, 0, 0
+    for contour in contours:
+        x_, y_, w_, h_ = cv2.boundingRect( contour )
+        if w_ * h_ > size:
+            x, y, w, h = x_, y_, w_, h_
+            size = w * h
 
-	result_gray_img_show = gray_img.copy()
+    return [x, y, x+w, y+h]
+# def generate_boundingbox(gray_img, threshold):
 
-	result_gray_img_show = result_gray_img_show - result_gray_img_show.min()
-	result_gray_img_show = result_gray_img_show/result_gray_img_show.max()
-	result_gray_img_show *= 255
+# 	result_gray_img_show = gray_img.copy()
 
-	ret,th1 = cv2.threshold(result_gray_img_show, threshold, 255, cv2.THRESH_BINARY)
-	height, width = th1.shape[:2]
-	x1, y1, x2, y2 = width*2, height*2, 0, 0
-	for y in range(height):
-		for x in range(width):
-			if th1[y,x] != 0:
-				x1, y1 = min(x1, x), min(y1, y)
-				x2, y2 = max(x2, x), max(y2, y)
-	if x1 == width*2:
-		print("empty boundingbox!")
-		return [0, 0, 0, 0]
-	else:
-		return [x1, y1, x2, y2]
+# 	result_gray_img_show = result_gray_img_show - result_gray_img_show.min()
+# 	result_gray_img_show = result_gray_img_show/result_gray_img_show.max()
+# 	result_gray_img_show *= 255
+
+# 	ret,th1 = cv2.threshold(result_gray_img_show, threshold, 255, cv2.THRESH_BINARY)
+# 	height, width = th1.shape[:2]
+# 	x1, y1, x2, y2 = width*2, height*2, 0, 0
+# 	for y in range(height):
+# 		for x in range(width):
+# 			if th1[y,x] != 0:
+# 				x1, y1 = min(x1, x), min(y1, y)
+# 				x2, y2 = max(x2, x), max(y2, y)
+# 	if x1 == width*2:
+# 		print("empty boundingbox!")
+# 		return [0, 0, 0, 0]
+# 	else:
+# 		return [x1, y1, x2, y2]
 
 
 def draw_boundingbox_on_heatmap_img(gray_img_video_dir, heatmap_img_video_dir, boundingbox_dir, bbox_threshold):
@@ -62,6 +78,6 @@ def draw_boundingbox_on_heatmap_img(gray_img_video_dir, heatmap_img_video_dir, b
 gray_img_video_dir = './mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_gray'
 heatmap_img_video_dir = './mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_heatmap'
 boundingbox_dir = './mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_bbox/'
-bbox_threshold = 190
+bbox_threshold = 200
 
 draw_boundingbox_on_heatmap_img(gray_img_video_dir, heatmap_img_video_dir, boundingbox_dir, bbox_threshold)
