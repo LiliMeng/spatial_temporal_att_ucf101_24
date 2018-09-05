@@ -14,35 +14,8 @@ import subprocess
 import numpy as np
 import cv2
 import csv
+import pickle
 
-def generate_IOU(gt_bbox, pred_bbox, img, img_index, save_folder):
-    # determine the (x, y)-coordinates of the intersection rectangle
-    xA = max(gt_bbox[0], pred_bbox[0])
-    yA = max(gt_bbox[1], pred_bbox[1])
-    xB = min(gt_bbox[2], pred_bbox[2])
-    yB = min(gt_bbox[3], pred_bbox[3])
-    
-    # compute the area of intersection rectangle
-    interArea = (xB - xA + 1) * (yB - yA + 1)
-    
-    # compute the area of both the prediction and ground-truth
-    # rectangles
-    boxAArea = (gt_bbox[2] - gt_bbox[0] + 1) * (gt_bbox[3] - gt_bbox[1] + 1)
-    boxBArea = (pred_bbox[2] - pred_bbox[0] + 1) * (pred_bbox[3] - pred_bbox[1] + 1)
-    
-    # compute the intersection over union by taking the intersection
-    # area and dividing it by the sum of prediction + ground-truth
-    # areas - the interesection area
-    IOU = interArea / float(boxAArea + boxBArea - interArea)
-
-    img1 = img.copy()
-    
-    cv2.rectangle(img1,(int(gt_bbox[0]),int(gt_bbox[1])),(int(gt_bbox[2]),int(gt_bbox[3])),(255,0,0),2)
-    cv2.rectangle(img1,(int(pred_bbox[0]),int(pred_bbox[1])),(int(pred_bbox[2]),int(pred_bbox[3])),(0,0,255),2)
-    cv2.imwrite(save_folder+"/bbox1_{}.png".format(img_index), img1)
-    
-    # return the intersection over union value
-    return IOU
 
 def pick_24_video_classes():
 
@@ -92,7 +65,7 @@ def pick_24_anno_classes():
 			frame_name = os.path.join(video_name, per_frame_name)
 
 			org_img_name = os.path.join(org_img_dir, frame_name)
-			print("org_img_name: ", org_img_name)
+			#print("org_img_name: ", org_img_name)
 
 			if not os.path.isfile(org_img_name):
 				continue 
@@ -106,8 +79,6 @@ def pick_24_anno_classes():
 
 			video_gt_bbox_dict[frame_name] = per_frame_gt_bbox
 			print("frame_name: ", frame_name)
-			print("per_frame_bbox: ", per_frame_gt_bbox)
-
 			
 			
 			
@@ -115,10 +86,10 @@ def pick_24_anno_classes():
 			#cv2.imwrite(os.path.join(sub_gt_bbox_dir, per_frame_name), org_img_copy)
 		
 	print("len(video_gt_bbox_dict): ", len(video_gt_bbox_dict))
-	np.save("video_gt_bbox_dict.npy", video_gt_bbox_dict)
-	w = csv.writer(open("video_gt_bbox_dictc_output.csv", "w"))
-	for key, val in video_gt_bbox_dict.items():
-		w.writerow([key, val])
-
+	pickle_out = open("video_gt_bbox_dict.pickle","wb")
+	pickle.dump(video_gt_bbox_dict, pickle_out)
+	pickle_out.close()
+	
+	return video_gt_bbox_dict
 
 pick_24_anno_classes()
