@@ -22,7 +22,7 @@ def generate_heatmap(mask_dir, mode, use_heatmap):
 
     video_name = np.concatenate(video_name, axis=0)
 
-    print("video_name.shape: ", video_name.shape)
+    #print("video_name.shape: ", video_name.shape)
 
     video_frame_length = video_name.shape[1]
     print("video_frame_length: ", video_frame_length)
@@ -37,14 +37,17 @@ def generate_heatmap(mask_dir, mode, use_heatmap):
             print('img_path: ', img_path)
            
             img = cv2.imread(img_path)
-            #height, width, _ = img.shape
-            img = cv2.resize(img, (256, 256))
+            #print("img_path: ", img_path)
+            height, width, _ = img.shape
+            print("height ", height)
+            print("width ", width)
+            img = cv2.resize(img, (height, width))
 
             cam = single_video_weights[img_indx]
             cam = cam - np.min(cam)
             cam_img = cam / np.max(cam)
             cam_img = np.uint8(255 * cam_img)
-            cam_img = cv2.resize(cam_img, (256, 256))
+            cam_img = cv2.resize(cam_img, (height, width))
 
             if use_heatmap == True:
                 heatmap = cv2.applyColorMap(cam_img, cv2.COLORMAP_JET)
@@ -57,7 +60,7 @@ def generate_heatmap(mask_dir, mode, use_heatmap):
             result_name = img_path.split('/')[-1]
             if not os.path.exists(result_dir):
                 os.makedirs(result_dir)
-            print("result_name: ", result_name)
+            #print("result_name: ", result_name)
             cv2.imwrite(result_dir+'/'+result_name, result)
 
 
