@@ -71,8 +71,10 @@ def pick_24_anno_classes():
 				continue 
 
 			org_img_copy = cv2.imread(org_img_name).copy()
+			org_img_copy = cv2.resize(org_img_copy, (320, 240))
 			
 			per_frame_gt_bbox = bboxes_per_video[j]
+			per_frame_gt_bbox = [int(item) for item in per_frame_gt_bbox]
 
 			per_frame_gt_bbox[2] += per_frame_gt_bbox[0]
 			per_frame_gt_bbox[3] += per_frame_gt_bbox[1]
