@@ -32,15 +32,15 @@ def generate_IOU(gt_bbox, pred_bbox, img, img_name, save_folder):
     IOU = interArea / float(gt_bboxArea + pred_bboxArea - interArea)
 
 
-    img1 = img.copy()
+    # img1 = img.copy()
     
-    cv2.rectangle(img1,(int(gt_bbox[0]),int(gt_bbox[1])),(int(gt_bbox[2]),int(gt_bbox[3])),(255,0,0),2)
-    cv2.rectangle(img1,(int(pred_bbox[0]),int(pred_bbox[1])),(int(pred_bbox[2]),int(pred_bbox[3])),(0,0,255),2)
-    final_save_folder = os.path.join(save_folder, img_name.split('/')[0])
+    # cv2.rectangle(img1,(int(gt_bbox[0]),int(gt_bbox[1])),(int(gt_bbox[2]),int(gt_bbox[3])),(255,0,0),2)
+    # cv2.rectangle(img1,(int(pred_bbox[0]),int(pred_bbox[1])),(int(pred_bbox[2]),int(pred_bbox[3])),(0,0,255),2)
+    # final_save_folder = os.path.join(save_folder, img_name.split('/')[0])
 
-    if not os.path.exists(final_save_folder):
-    	os.makedirs(final_save_folder)
-    cv2.imwrite(os.path.join(final_save_folder, img_name.split('/')[1]), img1)
+    # if not os.path.exists(final_save_folder):
+    # 	os.makedirs(final_save_folder)
+    # cv2.imwrite(os.path.join(final_save_folder, img_name.split('/')[1]), img1)
     
     # return the intersection over union value
     return IOU
@@ -60,8 +60,11 @@ pred_bbox_set = set(video_pred_bbox_dict.keys())
 
 same_video_frame_gt_pred = gt_bbox_set.intersection(pred_bbox_set)
 
-print("len(same_video_frame_gt_pred)")
-print(len(same_video_frame_gt_pred))
+print("video_gt_bbox_dict['v_Biking_g05_c05/frame000033.jpg']: ", video_gt_bbox_dict['v_Biking_g05_c05/frame000033.jpg'])
+print("video_gt_bbox_dict['v_Biking_g05_c05/frame000025.jpg']: ", video_gt_bbox_dict['v_Biking_g05_c05/frame000025.jpg'])
+
+# print("len(same_video_frame_gt_pred)")
+# print(len(same_video_frame_gt_pred))
 
 heatmap_dir = '/media/dataDisk/Video/spatial_temporal_att_ucf101_24/spatial_temporal_attention/mask_visualization/Contrast_0.0001_TV_reg1e-05_mask_LRPatience5_Adam0.0001_decay0.0001_dropout_0.2_Temporal_ConvLSTM_hidden512_regFactor_1_Sep_03_17_02/test_heatmap'
 
