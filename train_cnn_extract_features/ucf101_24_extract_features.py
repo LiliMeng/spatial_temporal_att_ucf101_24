@@ -191,8 +191,8 @@ def main():
         logits_np = logits.data.cpu().numpy()
         features_np = np.squeeze(features.data.cpu().numpy())
 
-        all_logits_list.append(logits_np)
-        all_features_list.append(features_np)
+        #all_logits_list.append(logits_np)
+        #all_features_list.append(features_np)
 
         print("features_np.shape: ", features_np.shape)
 
